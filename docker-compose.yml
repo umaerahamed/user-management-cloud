@@ -1,0 +1,22 @@
+services:
+  web:
+    build: .
+    container_name: user-management-app
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+      DB_NAME: user_management
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.40
+    container_name: user-management-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: user_management
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
